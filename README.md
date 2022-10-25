@@ -17,7 +17,7 @@ $ mvn package
 $ java -jar target/self-reporting.jar
 ```
 
-## Example `application.properties`
+### Example `application.properties`
 
 ```
 self-reporting.base-url=
