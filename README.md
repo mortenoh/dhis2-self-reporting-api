@@ -3,15 +3,19 @@
 
 **Requirements**: JDK 11, Maven 3
 
-## Quickstart
+### Quickstart
 
-Compile the project or download the most recent war file (links under releases).
+Compile the project using
 
 ```shell
 $ mvn package
 ```
 
-### Example `application.properties`
+### Running
+
+`java -jar self-reporting.jar`
+
+## Example `application.properties`
 
 ```
 self-reporting.base-url=
