@@ -49,7 +49,7 @@ import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
-@RequestMapping( "/api/self-reporting" )
+@RequestMapping( "/api/self-reporting/vital-signs" )
 @RequiredArgsConstructor
 public class SelfReportingController
 {
@@ -64,14 +64,34 @@ public class SelfReportingController
 
         UriComponents uriComponents = UriComponentsBuilder.newInstance()
             .uri( URI.create( properties.getBaseUrl() ) )
-            .path( "/api/dataElements" )
-            .queryParam( "fields", "id,displayName" )
-            .queryParam( "paging", false )
+            .path( "/api/events" )
             .build()
             .encode();
 
-        ResponseEntity<DataElementWrapper> responseEntity = restTemplate.getForEntity( uriComponents.toUri(),
-            DataElementWrapper.class );
+        SelfRegistrationEventWrapper payload = SelfRegistrationEventWrapper.builder()
+            .events( List.of(
+                SelfRegistrationEvent.builder()
+                    .trackedEntityInstance( request.getId() )
+                    .program( "ImspTQPwCqd" )
+                    .programStage( "ImspTQPwCqd" )
+                    .orgUnit( "ImspTQPwCqd" )
+                    .status( "COMPLETED" )
+                    .enrollment( "ImspTQPwCqd" )
+                    .eventDate( "2022-10-25" )
+                    .dataValues( List.of(
+                        SelfRegistrationEventDataValue.builder().dataElement( "mKLWtg9zlZF" )
+                            .value( request.getSystolic().toString() ).build(),
+                        SelfRegistrationEventDataValue.builder().dataElement( "Nbwya6fr9Do" )
+                            .value( request.getDiastolic().toString() ).build(),
+                        SelfRegistrationEventDataValue.builder().dataElement( "VnOTAxhekAb" )
+                            .value( request.getPulse().toString() ).build(),
+                        SelfRegistrationEventDataValue.builder().dataElement( "xHb2fLCu4iZ" )
+                            .value( request.getWeight().toString() ).build() ) )
+                    .build() ) )
+            .build();
+
+        ResponseEntity<String> responseEntity = restTemplate.postForEntity( uriComponents.toUri(), payload,
+            String.class );
 
         if ( !responseEntity.getStatusCode().is2xxSuccessful() || responseEntity.getBody() == null )
         {
@@ -84,7 +104,6 @@ public class SelfReportingController
 
         Response response = Response.builder()
             .status( Status.OK )
-            .dataElements( responseEntity.getBody().getDataElements() )
             .build();
 
         return ResponseEntity.ok( response );
@@ -96,8 +115,6 @@ public class SelfReportingController
 class Response
 {
     private Status status;
-
-    private List<DataElement> dataElements = new ArrayList<>();
 }
 
 @Data
@@ -127,15 +144,38 @@ enum Status
 }
 
 @Data
-class DataElementWrapper
+@Builder
+class SelfRegistrationEventWrapper
 {
-    private List<DataElement> dataElements = new ArrayList<>();
+    private List<SelfRegistrationEvent> events = new ArrayList<>();
 }
 
 @Data
-class DataElement
+@Builder
+class SelfRegistrationEvent
 {
-    private String id;
+    private String trackedEntityInstance;
 
-    private String displayName;
+    private String program;
+
+    private String programStage;
+
+    private String enrollment;
+
+    private String orgUnit;
+
+    private String status;
+
+    private String eventDate;
+
+    private List<SelfRegistrationEventDataValue> dataValues = new ArrayList<>();
+}
+
+@Data
+@Builder
+class SelfRegistrationEventDataValue
+{
+    private String dataElement;
+
+    private String value;
 }
