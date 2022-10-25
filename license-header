@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2004-2022, University of Oslo
+ * Copyright (c) 2004-$YEAR, University of Oslo
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,32 +25,3 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package org.hisp.dhis.integration.configuration;
-
-import java.nio.charset.StandardCharsets;
-
-import lombok.RequiredArgsConstructor;
-
-import org.springframework.boot.web.client.RestTemplateBuilder;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.http.MediaType;
-import org.springframework.web.client.RestTemplate;
-
-@Configuration
-@RequiredArgsConstructor
-public class SelfReportingConfiguration
-{
-    private final SelfReportingProperties properties;
-
-    @Bean
-    public RestTemplate restTemplate()
-    {
-        return new RestTemplateBuilder().defaultMessageConverters()
-            .defaultHeader( "Content-Type", MediaType.APPLICATION_JSON_VALUE )
-            .defaultHeader( "Accept", MediaType.APPLICATION_JSON_VALUE )
-            .basicAuthentication( properties.getUsername(),
-                properties.getPassword(), StandardCharsets.UTF_8 )
-            .build();
-    }
-}
