@@ -63,6 +63,7 @@
               <artifactId>lombok</artifactId>
             </exclude>
           </excludes>
+          <finalName>self-reporting</finalName>
         </configuration>
       </plugin>
       <plugin>

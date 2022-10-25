@@ -28,18 +28,18 @@
 package org.hisp.dhis.integration.web;
 
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.List;
 
-import javax.validation.constraints.NotEmpty;
-
-import lombok.Builder;
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
 import org.hisp.dhis.integration.configuration.SelfReportingProperties;
+import org.hisp.dhis.integration.domain.Response;
+import org.hisp.dhis.integration.domain.SelfRegistrationEvent;
+import org.hisp.dhis.integration.domain.SelfRegistrationEventDataValue;
+import org.hisp.dhis.integration.domain.SelfRegistrationEventWrapper;
+import org.hisp.dhis.integration.domain.SelfReportingRequest;
+import org.hisp.dhis.integration.domain.Status;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -108,74 +108,4 @@ public class SelfReportingController
 
         return ResponseEntity.ok( response );
     }
-}
-
-@Data
-@Builder
-class Response
-{
-    private Status status;
-}
-
-@Data
-@Validated
-class SelfReportingRequest
-{
-    @NotEmpty
-    private String id;
-
-    @NotEmpty
-    private Integer diastolic;
-
-    @NotEmpty
-    private Integer systolic;
-
-    @NotEmpty
-    private Integer pulse;
-
-    @NotEmpty
-    private Double weight;
-}
-
-enum Status
-{
-    OK,
-    ERROR
-}
-
-@Data
-@Builder
-class SelfRegistrationEventWrapper
-{
-    private List<SelfRegistrationEvent> events = new ArrayList<>();
-}
-
-@Data
-@Builder
-class SelfRegistrationEvent
-{
-    private String trackedEntityInstance;
-
-    private String program;
-
-    private String programStage;
-
-    private String enrollment;
-
-    private String orgUnit;
-
-    private String status;
-
-    private String eventDate;
-
-    private List<SelfRegistrationEventDataValue> dataValues = new ArrayList<>();
-}
-
-@Data
-@Builder
-class SelfRegistrationEventDataValue
-{
-    private String dataElement;
-
-    private String value;
 }
