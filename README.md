@@ -13,7 +13,9 @@ $ mvn package
 
 ### Running
 
-`java -jar self-reporting.jar`
+```shell
+$ java -jar target/self-reporting.jar
+```
 
 ## Example `application.properties`
 
