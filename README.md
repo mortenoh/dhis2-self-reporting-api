@@ -24,3 +24,8 @@ self-reporting.base-url=
 self-reporting.username=
 self-reporting.password=
 ```
+
+### Compile native image
+```
+mvn -Pnative -DskipTests package
+```
