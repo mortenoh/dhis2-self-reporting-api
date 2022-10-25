@@ -72,11 +72,11 @@ public class SelfReportingController
             .events( List.of(
                 SelfRegistrationEvent.builder()
                     .trackedEntityInstance( request.getId() )
-                    .program( "ImspTQPwCqd" )
-                    .programStage( "ImspTQPwCqd" )
+                    .program( "Fxovo131N3C" )
+                    .programStage( "tsYXkFNGPX4" )
                     .orgUnit( "ImspTQPwCqd" )
                     .status( "COMPLETED" )
-                    .enrollment( "ImspTQPwCqd" )
+                    .enrollment( "WXHbktGX1A9" )
                     .eventDate( "2022-10-25" )
                     .dataValues( List.of(
                         SelfRegistrationEventDataValue.builder().dataElement( "mKLWtg9zlZF" )
