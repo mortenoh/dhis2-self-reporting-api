@@ -25,6 +25,22 @@ self-reporting.username=
 self-reporting.password=
 ```
 
+### Using
+
+After starting up `self-report` you should now have a API endpoint on `<host>/api/self-reporting/vital-signs`
+
+You can then send JSON payloads like this
+
+````json
+{
+    "id": "TEI-UID",
+    "systolic": "x",
+    "diastolic": "x",
+    "pulse": "x",
+    "weight": "x"
+}
+````
+
 ### Compile native image
 
 **Requirements**: GraalVM 22 or later
