@@ -25,39 +25,30 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package org.hisp.dhis.integration.configuration;
+package org.hisp.dhis.integration.domain;
 
 import javax.validation.constraints.NotEmpty;
 
 import lombok.Data;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.stereotype.Component;
 import org.springframework.validation.annotation.Validated;
 
 @Data
-@Component
 @Validated
-@ConfigurationProperties(prefix = "self-reporting")
-public class SelfReportingProperties {
+public class SelfReportingRequest
+{
     @NotEmpty
-    private String baseUrl;
+    private String id;
 
     @NotEmpty
-    private String username;
+    private Integer diastolic;
 
     @NotEmpty
-    private String password;
+    private Integer systolic;
 
     @NotEmpty
-    private String programId;
+    private Integer pulse;
 
     @NotEmpty
-    private String firstNameAttribute;
-
-    @NotEmpty
-    private String lastNameAttribute;
-
-    @NotEmpty
-    private String dobAttribute;
+    private Double weight;
 }

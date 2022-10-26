@@ -25,39 +25,16 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package org.hisp.dhis.integration.configuration;
+package org.hisp.dhis.integration.domain;
 
-import javax.validation.constraints.NotEmpty;
-
+import lombok.Builder;
 import lombok.Data;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.stereotype.Component;
-import org.springframework.validation.annotation.Validated;
-
 @Data
-@Component
-@Validated
-@ConfigurationProperties(prefix = "self-reporting")
-public class SelfReportingProperties {
-    @NotEmpty
-    private String baseUrl;
+@Builder
+public class SelfRegistrationEventDataValue
+{
+    private String dataElement;
 
-    @NotEmpty
-    private String username;
-
-    @NotEmpty
-    private String password;
-
-    @NotEmpty
-    private String programId;
-
-    @NotEmpty
-    private String firstNameAttribute;
-
-    @NotEmpty
-    private String lastNameAttribute;
-
-    @NotEmpty
-    private String dobAttribute;
+    private String value;
 }
