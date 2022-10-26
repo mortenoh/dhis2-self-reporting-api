@@ -35,7 +35,7 @@ import org.springframework.validation.annotation.Validated;
 
 @Data
 @Validated
-public class SelfReportingRequest
+public class SelfReportingPayload
 {
     @NotEmpty
     private String id;

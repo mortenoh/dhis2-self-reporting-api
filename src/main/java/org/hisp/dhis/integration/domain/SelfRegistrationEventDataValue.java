@@ -27,11 +27,15 @@
  */
 package org.hisp.dhis.integration.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class SelfRegistrationEventDataValue
 {
     private String dataElement;

@@ -30,11 +30,12 @@ package org.hisp.dhis.integration.domain;
 import java.util.ArrayList;
 import java.util.List;
 
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
 @Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class SelfRegistrationEventWrapper
 {
     private List<SelfRegistrationEvent> events = new ArrayList<>();

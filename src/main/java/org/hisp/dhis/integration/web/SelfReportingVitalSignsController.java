@@ -28,25 +28,21 @@
 package org.hisp.dhis.integration.web;
 
 import java.net.URI;
-import java.util.List;
+import java.util.*;
 
 import lombok.RequiredArgsConstructor;
 
 import org.hisp.dhis.integration.configuration.SelfReportingProperties;
-import org.hisp.dhis.integration.domain.EmptyResponse;
-import org.hisp.dhis.integration.domain.SelfRegistrationEvent;
-import org.hisp.dhis.integration.domain.SelfRegistrationEventDataValue;
-import org.hisp.dhis.integration.domain.SelfRegistrationEventWrapper;
-import org.hisp.dhis.integration.domain.SelfReportingRequest;
-import org.hisp.dhis.integration.domain.Status;
+import org.hisp.dhis.integration.domain.*;
+import org.hisp.dhis.integration.util.ValueSetter;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
+
+import javax.annotation.PostConstruct;
 
 @RestController
 @RequestMapping( "/api/self-reporting/vital-signs" )
@@ -57,8 +53,49 @@ public class SelfReportingVitalSignsController
 
     private final SelfReportingProperties properties;
 
+    private final Map<String, ValueSetter<SelfReportingPayload>> dataElementsSetters = new HashMap<>();
+
+    @PostConstruct
+    private void fillValueSetters() {
+        dataElementsSetters.put("Nbwya6fr9Do", (selfReportingPayload, value) -> selfReportingPayload.setDiastolic(Integer.valueOf(value)));
+        dataElementsSetters.put("mKLWtg9zlZF", (selfReportingPayload, value) -> selfReportingPayload.setSystolic(Integer.valueOf(value)));
+        dataElementsSetters.put("VnOTAxhekAb", (selfReportingPayload, value) -> selfReportingPayload.setPulse(Integer.valueOf(value)));
+        dataElementsSetters.put("xHb2fLCu4iZ", (selfReportingPayload, value) -> selfReportingPayload.setWeight(Double.valueOf(value)));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<VitalsHistoryResponse> getSelfReports(@PathVariable String id) {
+        UriComponents uriComponents = UriComponentsBuilder.newInstance()
+                .uri(URI.create(properties.getBaseUrl())).path("/api/events")
+                .queryParam("program", properties.getProgramId())
+                .queryParam("trackedEntityInstance", id).build().encode();
+
+        try {
+            ResponseEntity<SelfRegistrationEventWrapper> forEntity = restTemplate.getForEntity(uriComponents.toUri(),
+                    SelfRegistrationEventWrapper.class);
+
+            List<SelfReportingPayload> vitalsHistory = new ArrayList<>();
+            for (SelfRegistrationEvent event : Objects.requireNonNull(forEntity.getBody()).getEvents()) {
+                SelfReportingPayload selfReportingPayload = new SelfReportingPayload();
+                selfReportingPayload.setId(id);
+                for (SelfRegistrationEventDataValue dataValue : event.getDataValues()) {
+                    if (dataElementsSetters.containsKey(dataValue.getDataElement())) {
+                        dataElementsSetters.get(dataValue.getDataElement()).setValue(selfReportingPayload, dataValue.getValue());
+                    }
+                }
+                vitalsHistory.add(selfReportingPayload);
+            }
+
+            VitalsHistoryResponse vitalsHistoryResponse = VitalsHistoryResponse.builder().status(Status.OK).vitals(vitalsHistory).build();
+            return ResponseEntity.ok(vitalsHistoryResponse);
+        } catch (HttpClientErrorException ex) {
+            VitalsHistoryResponse vitalsHistoryResponse = VitalsHistoryResponse.builder().status(Status.ERROR).build();
+            return ResponseEntity.status(ex.getStatusCode()).body(vitalsHistoryResponse);
+        }
+    }
+
     @PostMapping
-    public ResponseEntity<EmptyResponse> postSelfReport( @RequestBody SelfReportingRequest request )
+    public ResponseEntity<EmptyResponse> postSelfReport( @RequestBody SelfReportingPayload request )
     {
         UriComponents uriComponents = UriComponentsBuilder.newInstance()
             .uri( URI.create( properties.getBaseUrl() ) )
