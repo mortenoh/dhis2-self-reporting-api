@@ -37,4 +37,8 @@ public class PatientInfo
     private String lastName;
 
     private String dob;
+
+    private String phone;
+
+    private String email;
 }

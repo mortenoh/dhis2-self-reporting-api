@@ -63,13 +63,17 @@ public class PatientInfoController {
         valueSetters.put(properties.getFirstNameAttribute(), PatientInfo::setFirstName);
         valueSetters.put(properties.getLastNameAttribute(), PatientInfo::setLastName);
         valueSetters.put(properties.getDobAttribute(), PatientInfo::setDob);
+        valueSetters.put(properties.getPhoneAttribute(), PatientInfo::setPhone);
+        valueSetters.put(properties.getEmailAttribute(), PatientInfo::setEmail);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<PatientInfoResponse> getInformation(@PathVariable String id) {
         UriComponents uriComponents = UriComponentsBuilder.newInstance().uri(URI.create(properties.getBaseUrl()))
                 .path("/api/trackedEntityInstances/" + id)
-                .queryParam("fields", "attributes[attribute,value,displayName]").build().encode();
+                .queryParam("fields", "attributes[attribute,value,displayName]")
+                .queryParam("program", properties.getProgramId())
+                .build().encode();
 
         try {
             ResponseEntity<TrackedEntityAttributes> responseEntity = restTemplate.getForEntity(uriComponents.toUri(),

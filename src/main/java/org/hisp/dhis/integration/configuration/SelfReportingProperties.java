@@ -61,4 +61,10 @@ public class SelfReportingProperties
 
     @NotEmpty
     private String dobAttribute;
+
+    @NotEmpty
+    private String phoneAttribute;
+
+    @NotEmpty
+    private String emailAttribute;
 }
