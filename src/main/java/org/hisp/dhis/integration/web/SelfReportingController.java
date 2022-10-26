@@ -25,7 +25,7 @@ public class SelfReportingController
     private final SelfReportingProperties properties;
 
     @PostMapping
-    public ResponseEntity<Response> postSelfReport()
+    public ResponseEntity<ReportingResponse> postSelfReport()
     {
         UriComponents uriComponents = UriComponentsBuilder.newInstance()
             .uri( URI.create( properties.getBaseUrl() ) )
@@ -40,33 +40,28 @@ public class SelfReportingController
 
         if ( !responseEntity.getStatusCode().is2xxSuccessful() || responseEntity.getBody() == null )
         {
-            Response response = Response.builder()
+            ReportingResponse reportingResponse = ReportingResponse.builder()
                 .status( Status.ERROR )
                 .build();
 
-            return ResponseEntity.ok( response );
+            return ResponseEntity.ok(reportingResponse);
         }
 
-        Response response = Response.builder()
+        ReportingResponse reportingResponse = ReportingResponse.builder()
             .status( Status.OK )
             .dataElements( responseEntity.getBody().getDataElements() )
             .build();
 
-        return ResponseEntity.ok( response );
+        return ResponseEntity.ok(reportingResponse);
     }
 }
 
 @Data
 @Builder
-class Response
+class ReportingResponse
 {
     private Status status;
-    private List<DataElement> dataElements = new ArrayList<>();
-}
-
-enum Status
-{
-    OK, ERROR
+    private List<DataElement> dataElements;
 }
 
 @Data

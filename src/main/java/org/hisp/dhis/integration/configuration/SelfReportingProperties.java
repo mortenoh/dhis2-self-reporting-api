@@ -10,9 +10,8 @@ import javax.validation.constraints.NotEmpty;
 @Data
 @Component
 @Validated
-@ConfigurationProperties( prefix = "self-reporting" )
-public class SelfReportingProperties
-{
+@ConfigurationProperties(prefix = "self-reporting")
+public class SelfReportingProperties {
     @NotEmpty
     private String baseUrl;
 
@@ -21,4 +20,16 @@ public class SelfReportingProperties
 
     @NotEmpty
     private String password;
+
+    @NotEmpty
+    private String programId;
+
+    @NotEmpty
+    private String firstNameAttribute;
+
+    @NotEmpty
+    private String lastNameAttribute;
+
+    @NotEmpty
+    private String dobAttribute;
 }
