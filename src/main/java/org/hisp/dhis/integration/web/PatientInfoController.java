@@ -66,11 +66,11 @@ public class PatientInfoController
         valueSetters.put( properties.getDobAttribute(), PatientInfo::setDob );
     }
 
-    @GetMapping( "/{teiId}" )
-    public ResponseEntity<PatientInfoResponse> getInformation( @PathVariable String teiId )
+    @GetMapping( "/{id}" )
+    public ResponseEntity<PatientInfoResponse> getInformation( @PathVariable String id )
     {
         UriComponents uriComponents = UriComponentsBuilder.newInstance().uri( URI.create( properties.getBaseUrl() ) )
-            .path( "/trackedEntityInstances/" + teiId )
+            .path( "/trackedEntityInstances/" + id )
             .queryParam( "fields", "attributes[attribute,value,displayName]" ).build().encode();
 
         try
