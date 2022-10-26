@@ -33,7 +33,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 
 import org.hisp.dhis.integration.configuration.SelfReportingProperties;
-import org.hisp.dhis.integration.domain.Response;
+import org.hisp.dhis.integration.domain.EmptyResponse;
 import org.hisp.dhis.integration.domain.SelfRegistrationEvent;
 import org.hisp.dhis.integration.domain.SelfRegistrationEventDataValue;
 import org.hisp.dhis.integration.domain.SelfRegistrationEventWrapper;
@@ -58,7 +58,7 @@ public class SelfReportingController
     private final SelfReportingProperties properties;
 
     @PostMapping
-    public ResponseEntity<Response> postSelfReport( @RequestBody SelfReportingRequest request )
+    public ResponseEntity<EmptyResponse> postSelfReport(@RequestBody SelfReportingRequest request )
     {
         System.err.println( request );
 
@@ -95,14 +95,14 @@ public class SelfReportingController
 
         if ( !responseEntity.getStatusCode().is2xxSuccessful() || responseEntity.getBody() == null )
         {
-            Response response = Response.builder()
+            EmptyResponse response = EmptyResponse.builder()
                 .status( Status.ERROR )
                 .build();
 
             return ResponseEntity.ok( response );
         }
 
-        Response response = Response.builder()
+        EmptyResponse response = EmptyResponse.builder()
             .status( Status.OK )
             .build();
 

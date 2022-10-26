@@ -32,7 +32,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class Response
+public class EmptyResponse
 {
     private Status status;
 }
