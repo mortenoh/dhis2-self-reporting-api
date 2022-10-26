@@ -29,7 +29,7 @@ self-reporting.password=
 
 **Requirements**: GraalVM 22 or later
 
-### Compile and run
+#### Compile and run
 
 ```
 gu install native-image
