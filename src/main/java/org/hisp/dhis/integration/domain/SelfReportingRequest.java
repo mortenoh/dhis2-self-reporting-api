@@ -51,4 +51,7 @@ public class SelfReportingRequest
 
     @NotEmpty
     private Double weight;
+
+    @NotEmpty
+    private String date = "2022-10-26";
 }

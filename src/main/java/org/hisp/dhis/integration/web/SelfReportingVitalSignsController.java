@@ -75,7 +75,7 @@ public class SelfReportingVitalSignsController
                     .orgUnit( "ImspTQPwCqd" )
                     .status( "COMPLETED" )
                     .enrollment( "WXHbktGX1A9" )
-                    .eventDate( "2022-10-25" )
+                    .eventDate( request.getDate() )
                     .dataValues( List.of(
                         SelfRegistrationEventDataValue.builder().dataElement( "mKLWtg9zlZF" )
                             .value( request.getSystolic().toString() ).build(),
