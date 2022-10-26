@@ -70,7 +70,7 @@ public class SelfReportingVitalSignsController
             .events( List.of(
                 SelfRegistrationEvent.builder()
                     .trackedEntityInstance( request.getId() )
-                    .program( "Fxovo131N3C" )
+                    .program( properties.getProgramId() )
                     .programStage( "tsYXkFNGPX4" )
                     .orgUnit( "ImspTQPwCqd" )
                     .status( "COMPLETED" )
