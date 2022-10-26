@@ -1,4 +1,6 @@
 
+**WARNING** This just a simple example app for All-Devs 2022 Hackathon, most UIDs are hard coded and does not reflect any real world scenario.
+
 # DHIS2 Self Reporting API
 
 **Requirements**: JDK 11, Maven 3
@@ -24,6 +26,22 @@ self-reporting.base-url=
 self-reporting.username=
 self-reporting.password=
 ```
+
+### Using
+
+After starting up `self-report` you should now have a API endpoint on `<host>/api/self-reporting/vital-signs`
+
+You can then send JSON payloads like this
+
+````json
+{
+    "id": "TEI-UID",
+    "systolic": "x",
+    "diastolic": "x",
+    "pulse": "x",
+    "weight": "x"
+}
+````
 
 ### Compile native image
 
