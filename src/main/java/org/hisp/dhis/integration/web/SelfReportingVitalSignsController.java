@@ -51,17 +51,15 @@ import org.springframework.web.util.UriComponentsBuilder;
 @RestController
 @RequestMapping( "/api/self-reporting/vital-signs" )
 @RequiredArgsConstructor
-public class SelfReportingController
+public class SelfReportingVitalSignsController
 {
     private final RestTemplate restTemplate;
 
     private final SelfReportingProperties properties;
 
     @PostMapping
-    public ResponseEntity<EmptyResponse> postSelfReport(@RequestBody SelfReportingRequest request )
+    public ResponseEntity<EmptyResponse> postSelfReport( @RequestBody SelfReportingRequest request )
     {
-        System.err.println( request );
-
         UriComponents uriComponents = UriComponentsBuilder.newInstance()
             .uri( URI.create( properties.getBaseUrl() ) )
             .path( "/api/events" )

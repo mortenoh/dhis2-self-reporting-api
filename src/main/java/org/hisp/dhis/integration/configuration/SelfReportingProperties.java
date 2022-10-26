@@ -38,8 +38,9 @@ import org.springframework.validation.annotation.Validated;
 @Data
 @Component
 @Validated
-@ConfigurationProperties(prefix = "self-reporting")
-public class SelfReportingProperties {
+@ConfigurationProperties( prefix = "self-reporting" )
+public class SelfReportingProperties
+{
     @NotEmpty
     private String baseUrl;
 
