@@ -58,7 +58,7 @@ public class SelfReportingController
     private final SelfReportingProperties properties;
 
     @PostMapping
-    public ResponseEntity<EmptyResponse> postSelfReport(@RequestBody SelfReportingRequest request )
+    public ResponseEntity<EmptyResponse> postSelfReport( @RequestBody SelfReportingRequest request )
     {
         System.err.println( request );
 
