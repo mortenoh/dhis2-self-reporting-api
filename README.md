@@ -34,4 +34,5 @@ self-reporting.password=
 ```
 gu install native-image
 mvn -Pnative -DskipTests clean package
+./target/self-reporting
 ```
