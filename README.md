@@ -26,6 +26,10 @@ self-reporting.password=
 ```
 
 ### Compile native image
+
+**Requirements**: GraalVM 22 or later
+
 ```
-mvn -Pnative -DskipTests package
+gu install native-image
+mvn -Pnative -DskipTests clean package
 ```
