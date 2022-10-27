@@ -45,7 +45,8 @@ public class SelfReportingApplication implements WebMvcConfigurer
     }
 
     @Override
-    public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**").allowedMethods("*");
+    public void addCorsMappings( CorsRegistry registry )
+    {
+        registry.addMapping( "/**" ).allowedMethods( "*" );
     }
 }

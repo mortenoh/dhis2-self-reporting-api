@@ -27,11 +27,18 @@
  */
 package org.hisp.dhis.integration.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@JsonIgnoreProperties( ignoreUnknown = true )
 public class PatientInfoResponse
 {
     private Status status;

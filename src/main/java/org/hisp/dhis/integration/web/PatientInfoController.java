@@ -48,9 +48,10 @@ import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
-@RequestMapping("/api/self-reporting/info")
+@RequestMapping( "/api/self-reporting/info" )
 @RequiredArgsConstructor
-public class PatientInfoController {
+public class PatientInfoController
+{
 
     private final SelfReportingProperties properties;
 
@@ -59,43 +60,49 @@ public class PatientInfoController {
     private final Map<String, ValueSetter<PatientInfo>> valueSetters = new HashMap<>();
 
     @PostConstruct
-    private void fillValueSetters() {
-        valueSetters.put(properties.getFirstNameAttribute(), PatientInfo::setFirstName);
-        valueSetters.put(properties.getLastNameAttribute(), PatientInfo::setLastName);
-        valueSetters.put(properties.getDobAttribute(), PatientInfo::setDob);
-        valueSetters.put(properties.getPhoneAttribute(), PatientInfo::setPhone);
-        valueSetters.put(properties.getEmailAttribute(), PatientInfo::setEmail);
+    private void fillValueSetters()
+    {
+        valueSetters.put( properties.getFirstNameAttribute(), PatientInfo::setFirstName );
+        valueSetters.put( properties.getLastNameAttribute(), PatientInfo::setLastName );
+        valueSetters.put( properties.getDobAttribute(), PatientInfo::setDob );
+        valueSetters.put( properties.getPhoneAttribute(), PatientInfo::setPhone );
+        valueSetters.put( properties.getEmailAttribute(), PatientInfo::setEmail );
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<PatientInfoResponse> getInformation(@PathVariable String id) {
-        UriComponents uriComponents = UriComponentsBuilder.newInstance().uri(URI.create(properties.getBaseUrl()))
-                .path("/api/trackedEntityInstances/" + id)
-                .queryParam("fields", "attributes[attribute,value,displayName]")
-                .queryParam("program", properties.getProgramId())
-                .build().encode();
+    @GetMapping( "/{id}" )
+    public ResponseEntity<PatientInfoResponse> getInformation( @PathVariable String id )
+    {
+        UriComponents uriComponents = UriComponentsBuilder.newInstance().uri( URI.create( properties.getBaseUrl() ) )
+            .path( "/api/trackedEntityInstances/" + id )
+            .queryParam( "fields", "attributes[attribute,value,displayName]" )
+            .queryParam( "program", properties.getProgramId() )
+            .build().encode();
 
-        try {
-            ResponseEntity<TrackedEntityAttributes> responseEntity = restTemplate.getForEntity(uriComponents.toUri(),
-                    TrackedEntityAttributes.class);
+        try
+        {
+            ResponseEntity<TrackedEntityAttributes> responseEntity = restTemplate.getForEntity( uriComponents.toUri(),
+                TrackedEntityAttributes.class );
 
             // Do mapping
             PatientInfo patientInfo = new PatientInfo();
 
-            for (Attribute attribute : Objects.requireNonNull(responseEntity.getBody()).getAttributes()) {
-                if (valueSetters.containsKey(attribute.getAttribute())) {
-                    valueSetters.get(attribute.getAttribute()).setValue(patientInfo, attribute.getValue());
+            for ( Attribute attribute : Objects.requireNonNull( responseEntity.getBody() ).getAttributes() )
+            {
+                if ( valueSetters.containsKey( attribute.getAttribute() ) )
+                {
+                    valueSetters.get( attribute.getAttribute() ).setValue( patientInfo, attribute.getValue() );
                 }
             }
 
-            PatientInfoResponse patientInfoResponse = PatientInfoResponse.builder().status(Status.OK)
-                    .info(patientInfo).build();
+            PatientInfoResponse patientInfoResponse = PatientInfoResponse.builder().status( Status.OK )
+                .info( patientInfo ).build();
 
-            return ResponseEntity.ok(patientInfoResponse);
-        } catch (HttpClientErrorException ex) {
-            PatientInfoResponse patientInfoResponse = PatientInfoResponse.builder().status(Status.ERROR).build();
-            return ResponseEntity.status(ex.getStatusCode()).body(patientInfoResponse);
+            return ResponseEntity.ok( patientInfoResponse );
+        }
+        catch ( HttpClientErrorException ex )
+        {
+            PatientInfoResponse patientInfoResponse = PatientInfoResponse.builder().status( Status.ERROR ).build();
+            return ResponseEntity.status( ex.getStatusCode() ).body( patientInfoResponse );
         }
     }
 }
-

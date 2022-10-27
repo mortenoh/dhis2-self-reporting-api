@@ -35,10 +35,13 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonIgnoreProperties( ignoreUnknown = true )
 public class SelfRegistrationEvent
 {
     private String trackedEntityInstance;

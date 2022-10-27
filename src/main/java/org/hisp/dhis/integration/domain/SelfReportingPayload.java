@@ -29,12 +29,19 @@ package org.hisp.dhis.integration.domain;
 
 import javax.validation.constraints.NotEmpty;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import org.springframework.validation.annotation.Validated;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Data
 @Validated
+@AllArgsConstructor
+@NoArgsConstructor
+@JsonIgnoreProperties( ignoreUnknown = true )
 public class SelfReportingPayload
 {
     @NotEmpty
